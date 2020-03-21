@@ -1,0 +1,11 @@
+{
+  "name": "fogrex-sns-server",
+  "version": "1.0.0",
+  "description": "fogrex's sns",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fogrex",
+  "license": "ISC"
+}
