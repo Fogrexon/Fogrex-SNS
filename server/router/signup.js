@@ -7,6 +7,7 @@ const router = express.Router();
 const SALT_ROUNDS = 10;
 
 router.post('/', async (req, res) => {
+  console.log(req);
   const { username, password } = req.body;
 
   if (!username || username === '' || !password || password === '') {
@@ -35,3 +36,6 @@ router.post('/', async (req, res) => {
     message: 'User was created.',
   });
 });
+
+
+module.exports = router;

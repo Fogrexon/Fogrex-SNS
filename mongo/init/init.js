@@ -1,22 +1,22 @@
-var newUsers = [
+const newUsers = [
   {
-        user: 'server',
-        pwd: 'fogrexserver',
-        roles: [
-            {
-                role: 'readWrite',
-                db: 'sns'
-            }
-        ]
-    }
+    user: 'server',
+    pwd: 'fogrexserver',
+    roles: [
+      {
+        role: 'readWrite',
+        db: 'sns',
+      },
+    ],
+  },
 ];
 
-var currentUsers = db.getUsers();
+const currentUsers = db.getUsers();
 if (currentUsers.length === newUsers.length) {
-    quit();
+  quit();
 }
 db.dropAllUsers();
 
-for (var i = 0, length = newUsers.length; i < length; ++i) {
-    db.createUser(newUsers[i]);
+for (let i = 0, { length } = newUsers; i < length; ++i) {
+  db.createUser(newUsers[i]);
 }

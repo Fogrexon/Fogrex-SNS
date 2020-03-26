@@ -131,3 +131,4 @@ docker-compose.yml
 .vscode
 db/
 configdb/
+mongo/*
