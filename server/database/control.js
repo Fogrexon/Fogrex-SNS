@@ -9,9 +9,9 @@ mongoose.connect(databaseUrl);
 const { Schema } = mongoose;
 
 const User = new Schema({
-  id: { type: String, isRequired: true },
-  username: { type: String },
+  username: { type: String, isRequired: true },
   password: { type: String },
+  createAt: { type: Date },
 });
 const Post = new Schema({
   id: { type: String, isRequired: true },
@@ -20,6 +20,12 @@ const Post = new Schema({
   date: { type: Date },
   like: { stuff: { type: String } },
 });
+const Session = new Schema({
+  id: { type: String, isRequired: true },
+  userID: { type: String },
+  date: { type: Date },
+});
 
 exports.User = mongoose.model('User', User);
 exports.Post = mongoose.model('Post', Post);
+exports.Session = mongoose.model('Session', Session);
