@@ -1,37 +1,44 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const { User, Session } = require('../database/control.js');
+const { User } = require('../database/control.js');
 
 const router = express.Router();
 
-const SALT_ROUNDS = 10;
 
 router.post('/', async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || username === '' || !password || password === '') {
-    res.status(400).send({
-      message: 'Username or password is invalid.',
+    res.status(401).send({
+      message: 'Username or password is incorrect.',
     });
     return;
   }
 
-  const users = await User.find({ username });
+  const users = await User.findOne({ username });
 
-  if (!!users && users.length > 0) {
-    res.status(409).send({
-      message: 'This username is already exist.',
+  if (!users) {
+    res.status(401).send({
+      message: 'Username or password is incorrect.',
     });
     return;
   }
 
-  User.create({
-    username,
-    password: bcrypt.hashSync(password, SALT_ROUNDS),
-    createAt: Date.now,
-  });
+  if (!await bcrypt.compare(password, users.password)) {
+    res.status(401).send({
+      message: 'username or password is incorrect.',
+    });
+    return;
+  }
 
-  res.status(201).send({
-    message: 'User was created.',
+  req.session.user = {
+    name: username,
+  };
+
+  res.status(200).send({
+    message: 'Signed in successfully.',
   });
 });
+
+
+module.exports = router;
