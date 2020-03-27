@@ -2,9 +2,9 @@ version: '3'
 services:
   mongo:
     image: mongo
-    build:
-      context: .
-      dockerfile: ./docker/mongo/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/mongo/Dockerfile
     container_name: mongo
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
