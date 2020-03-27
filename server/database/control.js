@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const { env } = process;
 
-const databaseUrl = `mongodb://${env.DB_USERNAME}:${env.DB_PASSWORD}@${env.DB_HOSTNAME}:${env.DB_PORT}/${env.DB_DATABASE}`;
+// const databaseUrl = `mongodb://${env.DB_USERNAME}:${env.DB_PASSWORD}@${env.DB_HOSTNAME}:${env.DB_PORT}/${env.DB_DATABASE}`;
 
+const databaseUrl = 'mongodb://fogrex:fogrex@mongo:27017';
 mongoose.connect(databaseUrl);
 
 const { Schema } = mongoose;

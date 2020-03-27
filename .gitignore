@@ -126,7 +126,6 @@ sketch
 *.sql
 
 Dockerfile
-docker-compose.yml
 .devcontainer
 .vscode
 db/
