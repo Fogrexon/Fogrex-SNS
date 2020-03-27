@@ -1,19 +1,17 @@
 version: '3'
 services:
   mongo:
-    image: mongo
-    # build:
-    #   context: .
-    #   dockerfile: ./docker/mongo/Dockerfile
+    image: mongo:latest
     container_name: mongo
     ports:
-      - ${MONGO_PORT}:${MONGO_PORT}
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - "mongodb-data:/data/db"
+      - "./mongo/init/:/docker-entrypoint-initdb.d/"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+      MONGO_INITDB_DATABASE:
   sns-server:
     links:
       - mongo
@@ -24,12 +22,12 @@ services:
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     environment:
-      DB_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      DB_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      DB_USERNAME:
+      DB_PASSWORD:
       DB_HOSTNAME: mongo
-      DB_PORT: ${MONGO_PORT}
-      DB_DATABASE: ${MONGO_INITDB_DATABASE}
-      SERVER_PORT: ${SERVER_PORT}
+      DB_PORT:
+      DB_DATABASE:
+      SERVER_PORT:
     command:
       - mongod
   sns-client:
@@ -43,8 +41,8 @@ services:
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
     environment:
-      SERVER_PORT: ${SERVER_PORT}
-      CLIENT_PORT: ${CLIENT_PORT}
+      SERVER_PORT:
+      CLIENT_PORT:
 volumes:
   mongodb-data:
     driver: local

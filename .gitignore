@@ -130,4 +130,4 @@ Dockerfile
 .vscode
 db/
 configdb/
-mongo/*
+mongo/init/init.js
