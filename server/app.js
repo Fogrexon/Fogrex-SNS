@@ -2,8 +2,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const signup = require('./router/signup.js');
-const signin = require('./router/signin.js');
+const signup = require('./router/signup');
+const signin = require('./router/signin');
+const sessionCheck = require('./libs/sessionChecker');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(session({
 
 app.use('/signup', signup);
 app.use('/signin', signin);
+app.use('/post', sessionCheck, post);
 
 
 app.use(() => {
