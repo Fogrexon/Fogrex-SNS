@@ -11,22 +11,21 @@ const { Schema } = mongoose;
 
 const User = new Schema({
   username: { type: String, isRequired: true },
-  password: { type: String },
-  createAt: { type: Date },
+  password: { type: String, isRequired: true },
+  createAt: { type: Date, isRequired: true },
 });
 const Post = new Schema({
   id: { type: String, isRequired: true },
-  userID: { type: String },
-  text: { type: String },
-  date: { type: Date },
-  like: { stuff: { type: String } },
+  username: { type: String, isRequired: true },
+  text: { type: String, isRequired: true },
+  date: { type: Date, isRequired: true },
+  reply: { type: String },
 });
-const Session = new Schema({
-  id: { type: String, isRequired: true },
-  userID: { type: String },
-  date: { type: Date },
+const Like = new Schema({
+  postid: { type: String, isRequired: true },
+  username: { type: String, isRequired: true },
 });
 
 exports.User = mongoose.model('User', User);
 exports.Post = mongoose.model('Post', Post);
-exports.Session = mongoose.model('Session', Session);
+exports.Like = mongoose.model('Like', Like);

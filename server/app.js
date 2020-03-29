@@ -4,6 +4,7 @@ const session = require('express-session');
 
 const signup = require('./router/signup');
 const signin = require('./router/signin');
+const post = require('./router/post');
 const sessionCheck = require('./libs/sessionChecker');
 
 const app = express();
