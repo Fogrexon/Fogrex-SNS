@@ -2,9 +2,10 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
-const signup = require('./router/signup');
-const signin = require('./router/signin');
+const signUp = require('./router/signup');
+const signIn = require('./router/signin');
 const post = require('./router/post');
+const { like, unlike } = require('./router/likes');
 const sessionCheck = require('./libs/sessionChecker');
 
 const app = express();
@@ -24,18 +25,22 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 60 * 1000, // 1000 * 60 * 60 * 24,
+    maxAge: 10 * 60 * 1000, // 1000 * 60 * 60 * 24,
   },
 }));
 
 
-app.use('/signup', signup);
-app.use('/signin', signin);
+app.use('/signup', signUp);
+app.use('/signin', signIn);
 app.use('/post', sessionCheck, post);
+app.use('/like', sessionCheck, like);
+app.use('/unlike', sessionCheck, unlike);
 
 
-app.use(() => {
-  console.log('404 not found.');
+app.use((req, res) => {
+  res.status(404).send({
+    message: 'not found',
+  });
 });
 
 app.listen(process.env.SERVER_PORT, () => {
