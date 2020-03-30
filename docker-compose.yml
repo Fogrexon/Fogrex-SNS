@@ -28,8 +28,6 @@ services:
       DB_PORT:
       DB_DATABASE:
       SERVER_PORT:
-    command:
-      - mongod
   sns-client:
     links:
       - mongo
