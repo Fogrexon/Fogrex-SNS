@@ -14,6 +14,16 @@ const getLikes = async (id) => {
   return likes;
 };
 
+const getReplied = async (id) => {
+  const repliedPosts = await Post.find({ reply: id }, 'id');
+  const replied = [];
+  repliedPosts.map((val) => {
+    replied.push(val.id);
+    return true;
+  });
+  return replied;
+};
+
 
 router.post('/', async (req, res) => {
   const post = {
@@ -43,11 +53,14 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   const posts = await Post.find({}).sort({ date: -1 }).limit(10);
   let likes = [];
+  let replied = [];
   const result = [];
   for (let i = 0; i < posts.length; i += 1) {
     likes.push(getLikes(posts[i].id));
+    replied.push(getReplied(posts[i].id));
   }
   likes = await Promise.all(likes);
+  replied = await Promise.all(replied);
   for (let i = 0; i < posts.length; i += 1) {
     likes.push(getLikes(posts[i].id));
     result.push({
@@ -56,6 +69,8 @@ router.get('/', async (req, res) => {
       text: posts[i].text,
       date: posts[i].date,
       likes: likes[i],
+      reply: posts[i].reply,
+      replied: replied[i],
     });
   }
 
@@ -78,6 +93,7 @@ router.get('/:postid', async (req, res) => {
     text: post.text,
     date: post.date,
     likes: await getLikes(post.id),
+    replied: await getReplied(post.id),
   });
 });
 
