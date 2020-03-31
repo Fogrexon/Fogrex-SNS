@@ -8,7 +8,8 @@ import {
 import axios from 'axios';
 import './App.css';
 
-import Timeline from './timeline/Main.js';
+import Timeline from './timeline/Main';
+import SignIn from './signin/Main';
 
 export default class App extends React.Component {
   constructor(props)
@@ -52,6 +53,7 @@ export default class App extends React.Component {
     return (
       <Switch>
         <Route exact path='/'><Timeline username={this.state.username} /></Route>
+        <Route exact path='/signin'><SignIn /></Route>
       </Switch>
     )
   }
