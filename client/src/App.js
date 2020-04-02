@@ -20,17 +20,14 @@ export default class App extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.whoAmI();
-  }
-
-  componentWillUpdate() {
+  componentDidMount() {
     this.whoAmI();
   }
 
   whoAmI() {
+    console.log("whoami");
     axios.get('/api/whoami').then(
-      (res) => this.setState({ username: res.username })
+      (res) => this.setState({ username: res.data.username })
     ).catch(
       (err) => this.setState({ username: null })
     );

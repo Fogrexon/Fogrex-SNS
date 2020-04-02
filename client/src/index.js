@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+// import injectTapEventPlugin from 'react-tap-event-plugin';
+// injectTapEventPlugin();
 
 ReactDOM.render(
   <React.StrictMode>

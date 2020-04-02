@@ -1,29 +1,28 @@
 import React from 'react';
-import {
-  Card,
-  CardActions,
-  CardTitle,
-  CardText
-} from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+
 
 class Like extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isLike: props.like,
+      like: props.like,
     }
-    this.postId = props.postId;
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(){
     axios
-      .post(`/api/${ this.state.isLike ? 'unlike' : 'like' }/${this.postId}`)
-      .then(() => {
+      .post(`/api/${ this.state.like ? 'unlike' : 'like' }/${this.props.postId}`)
+      .then((res) => {
         this.setState({
-          isLike: !this.state.isLike,
+          like: !this.state.like,
         });
       });
   }
@@ -31,9 +30,7 @@ class Like extends React.Component {
   render() {
     return (
       <span onClick={this.handleClick}>
-        <Icon >
-          { this.state.isLike ? 'favorite' : 'favorite_board' }
-        </Icon>
+          { this.state.like ? <Icon>{'favorite'}</Icon> : <Icon>{'favorite_border'}</Icon> }
       </span>
     );
   }
@@ -41,24 +38,19 @@ class Like extends React.Component {
 
 class Post extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.username = props.username;
-    this.postId = props.postId;
-    this.text = props.text;
-    this.isLike = props.isLike;
-    this.me = props.me;
-  }
-
   render() {
     return (
-      <Card key={this.postId}>
-        <CardTitle title={this.username} subtitle='' />
-        <CardText>
-          {this.text}
-        </CardText>
+      <Card key={this.props.postId}>
+        <CardContent>
+          <Typography color='textSecondary' gutterBottom>
+            { this.props.username }
+          </Typography>
+          <Typography variant='body2' component='p'>
+            { this.props.text }
+          </Typography>
+        </CardContent>
         <CardActions>
-          <Like isLike={this.isLike} postId={this.postId} />
+          <Like like={this.props.isLike} postId={this.props.postId} />
         </CardActions>
       </Card>
     );
@@ -68,18 +60,21 @@ class Post extends React.Component {
 export default class Posts extends React.Component {
   constructor(props)
   {
+    console.log(props.username);
     super(props);
     this.state = {
       posts: [],
       redirect: false,
-    }
-    this.me = props.username;
+    };
     this.tick();
     setInterval(() => this.tick(), 10 * 1000);
 
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
   }
+  
 
   tick() {
+    if(!this.props.username) return;
     axios
       .get('/api/post')
       .then((res) => {
@@ -89,22 +84,29 @@ export default class Posts extends React.Component {
         });
       })
       .catch((err) => {
+        console.log(err);
         if(err.response.status === 401) {
-          this.setStatus({
+          this.setState({
             redirect: true,
           });
         }
       });
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.username !== this.props.username) {
+      this.tick();
+    }
+  }
+
   render(){
     return (
       <ul>
         { 
-          this.status.redirect
+          this.state.redirect
           ? (<Redirect to='/signin' />)
-          : this.posts.map(post => {
-            return <Post username={post.username} postId={post.id} text={post.text} isLike={post.likes.indexOf()} me={this.me} />
+          : this.state.posts.map(post => {
+            return <Post key={post.id} username={post.username} postId={post.id} text={post.text} isLike={(post.likes.indexOf(this.props.username) >= 0)} me={this.props.username} />
           })
         }
       </ul>

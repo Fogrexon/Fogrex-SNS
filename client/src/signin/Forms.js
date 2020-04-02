@@ -31,8 +31,9 @@ export default class LoginForm extends React.Component {
 
   handleSubmit() {
     axios
-      .post('/api/signin')
+      .post('/api/signin', { username: this.state.username, password: this.state.password })
       .then((res) => {
+        console.log(res.status);
         if(res.status !== 200) {
           this.setState({
             message: res.data.message,
@@ -40,9 +41,12 @@ export default class LoginForm extends React.Component {
           return;
         }
         this.setState({
-          signedin: true,
+          // signedin: true,
           message: res.data.message,
         });
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }
 
@@ -63,7 +67,7 @@ export default class LoginForm extends React.Component {
           </label>
           <input type='submit' value='Submit' />
         </form>
-        { this.state.signedin ? <Redirect to='/' /> : null }
+        { this.state.signedin ? <Redirect to='../' /> : null }
       </div>
     );
   }

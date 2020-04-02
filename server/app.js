@@ -12,9 +12,10 @@ const sessionCheck = require('./libs/sessionChecker');
 const app = express();
 
 app.use((req, res, next) => {
+  console.log(req.originalUrl);
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST');
   next();
 });
 
@@ -31,15 +32,16 @@ app.use(session({
 }));
 
 
-app.use('/signup', signUp);
-app.use('/signin', signIn);
-app.use('/post', sessionCheck, post);
-app.use('/like', sessionCheck, like);
-app.use('/unlike', sessionCheck, unlike);
-app.use('/whoami', sessionCheck, whoAmI);
+app.use('/api/signup', signUp);
+app.use('/api/signin', signIn);
+app.use('/api/post', sessionCheck, post);
+app.use('/api/like', sessionCheck, like);
+app.use('/api/unlike', sessionCheck, unlike);
+app.use('/api/whoami', sessionCheck, whoAmI);
 
 
 app.use((req, res) => {
+  console.log(req.originalUrl);
   res.status(404).send({
     message: 'not found',
   });
