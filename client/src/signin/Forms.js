@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -30,8 +29,15 @@ export default class LoginForm extends React.Component {
   }
 
   handleSubmit() {
+    const options = {
+      headers: {
+          'Content-Length': '10000'
+      },
+      json: true
+    };
+    console.log({ username: this.state.username, password: this.state.password });
     axios
-      .post('/api/signin', { username: this.state.username, password: this.state.password })
+      .post('/api/signin', { username: this.state.username, password: this.state.password }, options)
       .then((res) => {
         console.log(res.status);
         if(res.status !== 200) {
@@ -56,7 +62,7 @@ export default class LoginForm extends React.Component {
         <div>
           { this.state.message }
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <label>
             Username:
             <input type='text' value={this.state.username} onChange={this.handleUsernameChange} />
@@ -65,9 +71,8 @@ export default class LoginForm extends React.Component {
             Password:
             <input type='password' value={this.state.password} onChange={this.handlePasswordChange} />
           </label>
-          <input type='submit' value='Submit' />
+          <input type='button' value='Submit' onClick={this.handleSubmit} />
         </form>
-        { this.state.signedin ? <Redirect to='../' /> : null }
       </div>
     );
   }

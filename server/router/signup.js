@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
   User.create({
     username,
     password: bcrypt.hashSync(password, SALT_ROUNDS),
-    createAt: Date.now,
+    createAt: Date.now(),
   });
 
   res.status(201).send({

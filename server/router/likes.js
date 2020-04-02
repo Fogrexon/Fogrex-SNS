@@ -51,15 +51,8 @@ unlikeRouter.post('/:postid', async (req, res) => {
     return;
   }
 
-  const liked = await Like.findOne(like);
+  await Like.deleteOne(like);
 
-  if (!liked) {
-    res.status(409).send({
-      message: "didn't liked",
-    });
-    return;
-  }
-  await Like.remove(liked);
   res.status(200).send({
     message: 'unliked',
   });
