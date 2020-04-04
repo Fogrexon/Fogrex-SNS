@@ -1,4 +1,5 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 export default class LoginForm extends React.Component {
@@ -23,7 +24,6 @@ export default class LoginForm extends React.Component {
     axios
       .post('/api/post', { text: this.state.text })
       .then((res) => {
-        console.log(res.status);
       })
       .catch((err) => {
         console.log(err);
@@ -32,14 +32,14 @@ export default class LoginForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <Grid container>
+        <form>
           <label>
             <textarea value={this.state.text} onChange={this.handleTextChange} />
           </label>
-          <input type='submit' value='Submit' />
+          <input type='submit' value='Submit' onClick={this.handleSubmit} />
         </form>
-      </div>
+      </Grid>
     );
   }
 }
