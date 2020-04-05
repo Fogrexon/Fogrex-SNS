@@ -1,15 +1,19 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  // Switch,
+  // Route,
+  // Link
 } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
-import Timeline from './timeline/Main';
-import SignIn from './signin/Main';
+import Authentication from './Authentication';
+
+import Navigationbar from './navigationbar/Main';
+
+// import Timeline from './timeline/Main';
+// import SignIn from './signin/Main';
 
 export default class App extends React.Component {
   constructor(props)
@@ -33,34 +37,13 @@ export default class App extends React.Component {
     );
   }
 
-  routers() {
-    if(!this.state.username){
-      return (
-        <ul><li><Link to='/signin'>SignIn</Link></li></ul>        
-      );
-    }
-    return (
-      <ul>
-        <li><Link to='/'>Home</Link></li>
-      </ul>
-    ); 
-  }
-
-  switchers() {
-    return (
-      <Switch>
-        <Route exact path='/'><Timeline username={this.state.username} /></Route>
-        <Route exact path='/signin'><SignIn /></Route>
-      </Switch>
-    )
-  }
-
   render() {
     return (
-      <Router>
-        { this.routers() }
-        { this.switchers() }
-      </Router>
+      <Authentication.Provider value={ this.state.username }>
+        <Router>
+          <Navigationbar />
+        </Router>
+      </Authentication.Provider>
     )
   }
 }
