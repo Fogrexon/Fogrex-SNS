@@ -6,6 +6,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
 
 
 const useStyles = makeStyles({
@@ -14,6 +16,11 @@ const useStyles = makeStyles({
     bottom: '0px',
     width:'100%',
   },
+  postButton: {
+    position: 'fixed',
+    bottom: '81px',
+    right: '25px',
+  }
 });
 
 
@@ -28,11 +35,16 @@ const HomeIcon = (props) => {
 const SignedInNavs = (props) => {
   const classes = useStyles();
   return (
-    <BottomNavigation showLabels value={props.location} className={classes.root}>
-      <BottomNavigationAction component={Link} to='/' label='Home' value='home' icon={<HomeIcon />} />
-      <BottomNavigationAction component={Link} to='/me' label="Me" value="me" icon={<AccountCircleIcon />} />
-      <BottomNavigationAction component={Link} to='/favs' label='Favorites' value='favs' icon={<FavoriteIcon />} />
-    </BottomNavigation>
+    <div>
+      <BottomNavigation showLabels value={props.location} className={classes.root}>
+        <BottomNavigationAction component={Link} to='/' label='Home' value='home' icon={<HomeIcon />} />
+        <BottomNavigationAction component={Link} to='/me' label="Me" value="me" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to='/favs' label='Favorites' value='favs' icon={<FavoriteIcon />} />
+      </BottomNavigation>
+      <Fab color="primary" aria-label="edit" className={classes.postButton} component={Link} to='/post' >
+        <EditIcon />
+      </Fab>
+    </div>
   );
 }
 

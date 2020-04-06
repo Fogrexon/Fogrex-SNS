@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 import './App.css';
 
-import Authentication from './Authentication';
+import Authentication from './components/Authentication';
 
 import Navigationbar from './navigationbar/Main';
 
