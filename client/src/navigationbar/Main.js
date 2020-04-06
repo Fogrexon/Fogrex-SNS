@@ -14,7 +14,7 @@ const NavProto = (props) => {
     <Authentication.Consumer>
       {
         value => {
-          if(!!value) return <SignInNavs location={ location }/>
+          if(!value) return <SignInNavs location={ location }/>
           return <SignedInNavs location={ location } />
         }
       }

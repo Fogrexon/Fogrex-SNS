@@ -1,12 +1,15 @@
 import React from 'react';
-import LoginForm from './Forms';
+import {Header, Contents} from '../components/ViewComponents';
+import SignInForm from './Form';
 
-const SignIn = () => {
+
+export default (props) => {
   return (
-    <div>
-      <LoginForm />
-    </div>
+    <React.Fragment>
+      <Header title='SignIn'/>
+      <Contents>
+        <SignInForm />
+      </Contents>
+    </React.Fragment>
   );
 }
-
-export default SignIn;

@@ -1,19 +1,18 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  // Switch,
-  // Route,
-  // Link
+  Switch,
+  Route
 } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
 import Authentication from './components/Authentication';
-
 import Navigationbar from './navigationbar/Main';
 
 // import Timeline from './timeline/Main';
-// import SignIn from './signin/Main';
+import SignIn from './signin/Main';
+import SignUp from './signup/Main';
 
 export default class App extends React.Component {
   constructor(props)
@@ -42,6 +41,10 @@ export default class App extends React.Component {
       <Authentication.Provider value={ this.state.username }>
         <Router>
           <Navigationbar />
+          <Switch>
+            <Route exact path='/signup'><SignUp /></Route>
+            <Route exact path='/signin'><SignIn /></Route>
+          </Switch>
         </Router>
       </Authentication.Provider>
     )
