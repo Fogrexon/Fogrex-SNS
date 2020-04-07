@@ -14,6 +14,7 @@ export class Auth extends React.Component {
   }
 
   componentDidMount() {
+    console.log('whoami');
     this.whoami();
   }
 

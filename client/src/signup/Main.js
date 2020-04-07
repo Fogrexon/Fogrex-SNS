@@ -5,7 +5,7 @@ import SignUpForm from './Form';
 export default (props) => {
   return (
     <React.Fragment>
-      <ViewFrame titel='SignUp'>
+      <ViewFrame title='SignUp'>
         <SignUpForm />
       </ViewFrame>
     </React.Fragment>

@@ -50,7 +50,8 @@ export default (props) => {
     password: '',
     showPassword: false,
     redirect: false,
-    message: null,
+    errorMessage: null,
+    okMessage: null,
   });
 
   const handleChange = (prop) => (e) => {
@@ -65,20 +66,22 @@ export default (props) => {
     e.preventDefault();
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     axios
       .post('/api/signin', {username: values.username, password: values.password})
-      .then(() => {
-        setValues({...values, redirect: true});
+      .then((res) => {
+        setValues({ ...values, errorMessage: null, okMessage: res.data.message });
+        setTimeout(() => setValues({...values, redirect: true}), 2000);
       })
       .catch((error) => {
-        if(error.response.status === 401) setValues({...values, message: error.response.data.message });
+        if(!!error.response) setValues({...values, errorMessage: error.response.data.message, okMessage: null });
       });
   }
 
   const classes = useStyles();
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Authentication.Consumer>
         {
           auth => {
@@ -86,7 +89,8 @@ export default (props) => {
           }
         }
       </Authentication.Consumer>
-      { values.message ? <Paper variant='elevation' className={ [classes.paper, classes.secondaryTheme].join(" ") }>{ values.message }</Paper> : null }
+      { values.errorMessage ? <Paper variant='elevation' className={ [classes.paper, classes.secondaryTheme].join(" ") }>{ values.errorMessage }</Paper> : null }
+      { values.okMessage ? <Paper variant='elevation' className={ [classes.paper, classes.primaryTheme].join(" ") }>{ values.okMessage }</Paper> : null }
       <TextField 
         key='username' 
         label='Username' 
@@ -94,7 +98,7 @@ export default (props) => {
         className={ classes.inputForm } 
         onChange={ handleChange('username') } 
       />
-      <FormControl className={classes.inputForm} variant="outlined">
+      <FormControl className={classes.inputForm} variant='outlined'>
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
@@ -102,12 +106,12 @@ export default (props) => {
             value={values.password}
             onChange={handleChange('password')}
             endAdornment={
-              <InputAdornment position="end">
+              <InputAdornment position='end'>
                 <IconButton
-                  aria-label="toggle password visibility"
+                  aria-label='toggle password visibility'
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
-                  edge="end"
+                  edge='end'
                 >
                   {values.showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
@@ -116,7 +120,7 @@ export default (props) => {
             labelWidth={70}
           />
         </FormControl>
-      <Button variant='contained' color='primary' className={classes.button} onClick={handleSubmit}>SIGNIN</Button>
+      <Button type='submit' variant='contained' color='primary' className={classes.button}>SIGNIN</Button>
     </form>
   );
 }
