@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 const SignInNavs = (props) => {
   const classes = useStyles();
   return (
-    <BottomNavigation showLabels value={props.location} className={classes.root}>
+    <BottomNavigation showLabels value={props.basePath} className={classes.root}>
       <BottomNavigationAction component={Link} to='/signup' label='Signup' value='signup' icon={<CreateIcon />} />
       <BottomNavigationAction component={Link} to='/signin' label='Signin' value='signin' icon={<ExitToAppIcon />} />
     </BottomNavigation>

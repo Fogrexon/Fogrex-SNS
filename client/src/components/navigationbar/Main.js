@@ -9,13 +9,14 @@ import Authentication from '../Authentication';
 const NavProto = (props) => {
   let location = props.location.pathname.split('/')[1];
   location = location === '' ? 'home' : location;
+  console.log(location);
 
   return (
     <Authentication.Consumer>
       {
         value => {
-          if(!value || !value.username) return <SignInNavs location={ location } {...props}/>
-          return <SignedInNavs location={ location } {...props} />
+          if(!value || !value.username) return <SignInNavs basePath={ location } {...props}/>
+          return <SignedInNavs basePath={ location } {...props} />
         }
       }
     </Authentication.Consumer>

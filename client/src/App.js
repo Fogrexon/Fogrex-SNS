@@ -9,6 +9,7 @@ import './App.css';
 import Timeline from './timeline/Main';
 import SignIn from './signin/Main';
 import SignUp from './signup/Main';
+import Post from './post/Main';
 
 export default class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class App extends React.Component {
           <Route exact path='/signup'><SignUp /></Route>
           <Route exact path='/signin'><SignIn /></Route>
           <Route exact path='/'><Timeline /></Route>
+          <Route exact path='/post'><Post /></Route>
         </Switch>
       </Router>
     );

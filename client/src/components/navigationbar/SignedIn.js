@@ -36,9 +36,9 @@ const SignedInNavs = (props) => {
   const classes = useStyles();
   return (
     <div>
-      <BottomNavigation showLabels value={props.location} className={ [classes.root, props.className].join(' ') } >
+      <BottomNavigation showLabels value={props.basePath} className={ [classes.root, props.className].join(' ') } >
         <BottomNavigationAction component={Link} to='/' label='Home' value='home' icon={<HomeIcon />} />
-        <BottomNavigationAction component={Link} to='/me' label="Me" value="me" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction component={Link} to='/me' label='Me' value='me' icon={<AccountCircleIcon />} />
         <BottomNavigationAction component={Link} to='/favs' label='Favorites' value='favs' icon={<FavoriteIcon />} />
       </BottomNavigation>
       <Fab color="primary" aria-label="edit" className={classes.postButton} component={Link} to='/post' >
