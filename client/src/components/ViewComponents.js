@@ -1,11 +1,14 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container';
+
+import Authentication, { Auth } from './Authentication';
+import Navigationbar from './navigationbar/Main';
 
 const useStyles = makeStyles({
   header: {
@@ -13,8 +16,11 @@ const useStyles = makeStyles({
   },
   contents: {
     padding: '10px 20px',
-    margin: '56px 0px',
+    margin: '56px auto',
   },
+  indexChanger: {
+    zIndex: 10000,
+  }
 });
 
 
@@ -31,7 +37,7 @@ const ElevationScroll = (props) => {
 }
 
 
-export const Header = (props) => {
+const Header = (props) => {
   return (
     <ElevationScroll>
       <AppBar>
@@ -43,11 +49,35 @@ export const Header = (props) => {
   );
 }
 
-export const Contents = (props) => {
+const Contents = (props) => {
+  return (
+      <Container maxWidth='sm' {...props} className={useStyles().contents}>
+        { props.children }
+      </Container>
+  );
+}
+
+export const ViewFrame = (props) => {
+  const classes = useStyles();
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth='sm' {...props} className={useStyles().contents} />
+      <Auth>
+        <Header title={props.title} className={classes.indexChanger} />
+        <Navigationbar className={classes.indexChanger}/>
+        <Contents>
+          { props.children }
+        </Contents>
+      </Auth>
     </React.Fragment>
   );
+}
+
+export const Redirector = () => {
+  return (
+    <Authentication.Consumer>
+      { value => {
+        if(!!value && !value.username) return <Redirect to='/signin' />
+      }}
+    </Authentication.Consumer>
+  )
 }

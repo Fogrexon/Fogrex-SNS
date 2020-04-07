@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import SignedInNavs from './SignedIn';
 import SignInNavs from './SignIn';
 
-import Authentication from '../components/Authentication';
+import Authentication from '../Authentication';
 
 
 const NavProto = (props) => {
@@ -14,8 +14,8 @@ const NavProto = (props) => {
     <Authentication.Consumer>
       {
         value => {
-          if(!value) return <SignInNavs location={ location }/>
-          return <SignedInNavs location={ location } />
+          if(!value || !value.username) return <SignInNavs location={ location } {...props}/>
+          return <SignedInNavs location={ location } {...props} />
         }
       }
     </Authentication.Consumer>

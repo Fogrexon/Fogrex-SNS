@@ -12,11 +12,12 @@ import axios from 'axios';
 
 const styles = {
   root: {
-    minWidth: "95%",
-  },
+    width: '100%',
+    margin: '5px auto',
+  }
 };
 
-class Like extends React.Component {
+class LikeNoStyle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -34,6 +35,9 @@ class Like extends React.Component {
           like: !this.state.like,
           num: this.state.num + (this.state.like ? -1 : 1),
         });
+      })
+      .catch(err => {
+        console.log(err.response);
       });
   }
 
@@ -49,13 +53,15 @@ class Like extends React.Component {
   }
 }
 
+const Like = withStyles(styles)(LikeNoStyle);
+
 class Post extends React.Component {
   render() {
     return (
       <Card key={this.props.postId} className={this.props.classes.root}>
         <CardHeader
           avatar={
-            <Avatar alt={this.props.username}>{this.props.username.charAt(0)}</Avatar>
+            <Avatar className={this.props.classes.posStatic} alt={this.props.username}>{this.props.username.charAt(0)}</Avatar>
           }
           title={this.props.username}
           subheader={this.props.date.toString()}

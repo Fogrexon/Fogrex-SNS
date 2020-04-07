@@ -32,12 +32,12 @@ app.use(session({
 }));
 
 
-app.use('/api/signup', signUp);
-app.use('/api/signin', signIn);
-app.use('/api/post', sessionCheck, post);
-app.use('/api/like', sessionCheck, like);
-app.use('/api/unlike', sessionCheck, unlike);
-app.use('/api/whoami', sessionCheck, whoAmI);
+app.use('/signup', signUp);
+app.use('/signin', signIn);
+app.use('/post', sessionCheck, post);
+app.use('/like', sessionCheck, like);
+app.use('/unlike', sessionCheck, unlike);
+app.use('/whoami', sessionCheck, whoAmI);
 
 
 app.use((req, res) => {

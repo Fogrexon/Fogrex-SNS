@@ -1,27 +1,38 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Post from './Post';
 
+import Authentication from '../components/Authentication';
+
 export default class Posts extends React.Component {
+
+  static contextType = Authentication;
+
   constructor(props)
   {
-    console.log(props.username);
     super(props);
+    this.prevContext = this.context;
     this.state = {
       posts: [],
-      redirect: false,
     };
     this.tick();
-    setInterval(() => this.tick(), 10 * 1000);
+    this.interval = setInterval(() => this.tick(), 10 * 1000);
+  }
 
-    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+  componentDidUpdate() {
+    if(this.prevContext !== this.context) {
+      this.tick();
+      this.prevContext = this.context;
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
   
 
   tick() {
-    if(!this.props.username) return;
+    if(!this.context) return;
     axios
       .get('/api/post')
       .then((res) => {
@@ -32,36 +43,24 @@ export default class Posts extends React.Component {
       })
       .catch((err) => {
         console.log(err);
-        if(err.response.status === 401) {
-          this.setState({
-            redirect: true,
-          });
-        }
       });
   }
 
-  componentDidUpdate(prevProps) {
-    
-    if(prevProps.username !== this.props.username) {
-      this.tick();
-    }
-  }
+  
 
   render(){
     return (
-      <Grid container>
+      <React.Fragment>
         { 
-          this.state.redirect
-          ? (<Redirect to='/signin' />)
-          : this.state.posts.map(post => {
+          this.state.posts.map(post => {
             return (
-              <Grid container key={post.id}>
-                <Post username={post.username} postId={post.id} text={post.text} likes={post.likes} me={this.props.username} date={new Date(post.date)} />
-              </Grid>
+              <React.Fragment key={post.id} >
+                <Post username={post.username} postId={post.id} text={post.text} likes={post.likes} me={this.context.username} date={new Date(post.date)} />
+              </React.Fragment>
             );
           })
         }
-      </Grid>
+      </React.Fragment>
     );
   }
 }

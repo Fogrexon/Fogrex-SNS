@@ -1,15 +1,14 @@
 import React from 'react';
-import {Header, Contents} from '../components/ViewComponents';
+import { ViewFrame } from '../components/ViewComponents';
 import SignInForm from './Form';
 
 
 export default (props) => {
   return (
     <React.Fragment>
-      <Header title='SignIn'/>
-      <Contents>
+      <ViewFrame title='SignIn'>
         <SignInForm />
-      </Contents>
+      </ViewFrame>
     </React.Fragment>
   );
 }
