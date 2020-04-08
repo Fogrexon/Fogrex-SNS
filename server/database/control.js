@@ -24,10 +24,10 @@ exports.userSignin = async (username, password) => {
   if(!await bcrypt.compare(password, users.password)) return false;
   return true;
 }
-exports.getUser = async (username, password) => {
+exports.getUser = async (username) => {
   const user = await User.findOne({ username });
 
-  if (!users) return false;
+  if (!user) return false;
   return {
     username: user.username,
     createAt: user.createAt,
@@ -72,6 +72,7 @@ exports.unlikePost = async (id, username) => {
 }
 
 const simplePostGetter = async (post, username) => {
+  if(typeof post !== 'object') post = await Post.findOne({id: post});
   if(!post) return null;
   const likeNumPromise = Like.find({ postid: post.id });
   const isLikedPromise = Like.findOne({ postid: post.id, username });
@@ -108,13 +109,10 @@ exports.getLatestPost = async ( username, limit ) => {
 }
 
 exports.getLatestLike = async ( username, limit ) => {
-  const likesRaw = await Post.find({ username }).sort({ createAt: -1 }).limit( limit );
-  
+  const likesRaw = await Like.find({ username }).sort({ createAt: -1 }).limit( limit );
   const postsPromise = [];
   likesRaw.map((like) => {
-    postsPromise.push(async () => {
-      return await simplePostGetter(await Post.findOne({id: like.postid}), username);
-    });
+    postsPromise.push(simplePostGetter(like.postid, username));
   });
   return await Promise.all(postsPromise);
 }

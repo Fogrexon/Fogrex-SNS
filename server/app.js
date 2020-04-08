@@ -7,6 +7,9 @@ const signIn = require('./router/signin');
 const post = require('./router/post');
 const { like, unlike } = require('./router/likes');
 const whoAmI = require('./router/whoami');
+const me = require('./router/me');
+const myLike = require('./router/mylike');
+const signOut = require('./router/signout');
 const sessionCheck = require('./libs/sessionChecker');
 
 const app = express();
@@ -38,6 +41,9 @@ app.use('/post', sessionCheck, post);
 app.use('/like', sessionCheck, like);
 app.use('/unlike', sessionCheck, unlike);
 app.use('/whoami', sessionCheck, whoAmI);
+app.use('/me', sessionCheck, me);
+app.use('/mylike', sessionCheck, myLike);
+app.use('/signout', sessionCheck, signOut);
 
 
 app.use((req, res) => {
