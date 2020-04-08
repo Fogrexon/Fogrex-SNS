@@ -55,7 +55,7 @@ export default class Posts extends React.Component {
           this.state.posts.map(post => {
             return (
               <React.Fragment key={post.id} >
-                <Post username={post.username} postId={post.id} text={post.text} likes={post.likes} me={this.context.username} date={new Date(post.date)} />
+                <Post post={post} me={this.context.username} />
               </React.Fragment>
             );
           })

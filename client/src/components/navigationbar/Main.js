@@ -9,7 +9,6 @@ import Authentication from '../Authentication';
 const NavProto = (props) => {
   let location = props.location.pathname.split('/')[1];
   location = location === '' ? 'home' : location;
-  console.log(location);
 
   return (
     <Authentication.Consumer>

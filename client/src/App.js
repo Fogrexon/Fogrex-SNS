@@ -10,6 +10,7 @@ import Timeline from './timeline/Main';
 import SignIn from './signin/Main';
 import SignUp from './signup/Main';
 import Post from './post/Main';
+import Reply from './reply/Main';
 
 export default class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ export default class App extends React.Component {
           <Route exact path='/signin'><SignIn /></Route>
           <Route exact path='/'><Timeline /></Route>
           <Route exact path='/post'><Post /></Route>
+          <Route exact path='/reply/:postid' component={ Reply } />
         </Switch>
       </Router>
     );

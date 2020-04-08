@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
@@ -10,14 +10,14 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
 
-const styles = {
+const useStyles = makeStyles({
   root: {
     width: '100%',
     margin: '5px auto',
   }
-};
+});
 
-class LikeNoStyle extends React.Component {
+class Like extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -53,30 +53,30 @@ class LikeNoStyle extends React.Component {
   }
 }
 
-const Like = withStyles(styles)(LikeNoStyle);
 
-class Post extends React.Component {
-  render() {
-    return (
-      <Card key={this.props.postId} className={this.props.classes.root}>
-        <CardHeader
-          avatar={
-            <Avatar className={this.props.classes.posStatic} alt={this.props.username}>{this.props.username.charAt(0)}</Avatar>
-          }
-          title={this.props.username}
-          subheader={this.props.date.toString()}
-        />
-        <CardContent>
-          <Typography variant='body2' component='p'>
-            { this.props.text }
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Like like={this.props.likes.indexOf(this.props.me) >= 0} num={this.props.likes.length} postId={this.props.postId} />
-        </CardActions>
-      </Card>
-    );
-  }
+
+const Post = (props) => {
+  const post = props.post;
+  const classes = useStyles();
+  return (
+    <Card key={post.id} className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar className={classes.posStatic} alt={post.username}>{post.username.charAt(0)}</Avatar>
+        }
+        title={post.username}
+        subheader={new Date(post.date).toString()}
+      />
+      <CardContent>
+        <Typography variant='body2' component='p'>
+          { post.text }
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Like like={post.likes.indexOf(props.me) >= 0} num={post.likes.length} postId={post.id} />
+      </CardActions>
+    </Card>
+  );
 }
 
-export default withStyles(styles)(Post);
+export default Post;

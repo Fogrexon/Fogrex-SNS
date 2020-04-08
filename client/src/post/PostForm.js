@@ -39,6 +39,8 @@ export default (props) => {
   const [values, setValues] = React.useState({
     text: '',
     errorMessage: null,
+    okMessage: null,
+    redirect: false,
   });
 
   const handleChange = (e) => {
