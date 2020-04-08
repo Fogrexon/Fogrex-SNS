@@ -17,10 +17,10 @@ export default class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/signup'><SignUp /></Route>
-          <Route exact path='/signin'><SignIn /></Route>
-          <Route exact path='/'><Timeline /></Route>
-          <Route exact path='/post'><Post /></Route>
+          <Route exact path='/signup' component={ SignUp } />
+          <Route exact path='/signin' component={ SignIn } />
+          <Route exact path='/' component={ Timeline } />
+          <Route exact path='/post' component={ Post } />
           <Route exact path='/reply/:postid' component={ Reply } />
         </Switch>
       </Router>

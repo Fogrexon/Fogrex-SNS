@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -58,8 +60,11 @@ class Like extends React.Component {
 const Post = (props) => {
   const post = props.post;
   const classes = useStyles();
+  const handleConsole = ()=>{
+    console.log('console');
+  }
   return (
-    <Card key={post.id} className={classes.root}>
+    <Card key={post.id} className={classes.root} onClick={handleConsole} >
       <CardHeader
         avatar={
           <Avatar className={classes.posStatic} alt={post.username}>{post.username.charAt(0)}</Avatar>
@@ -73,6 +78,7 @@ const Post = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
+        <IconButton component={Link} to={`/reply/${post.id}`}><ChatBubbleIcon /></IconButton>
         <Like like={post.likes.indexOf(props.me) >= 0} num={post.likes.length} postId={post.id} />
       </CardActions>
     </Card>
