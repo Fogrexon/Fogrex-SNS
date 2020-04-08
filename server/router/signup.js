@@ -1,10 +1,8 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
-const { User } = require('../database/control');
+const { userCreate } = require('../database/control');
 
 const router = express.Router();
 
-const SALT_ROUNDS = 10;
 
 router.post('/', async (req, res) => {
   const { username, password } = req.body;
@@ -16,20 +14,14 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  const users = await User.find({ username });
+  const result = await userCreate(username, password);
 
-  if (!!users && users.length > 0) {
+  if (!result) {
     res.status(409).send({
       message: 'This username is already exist.',
     });
     return;
   }
-
-  User.create({
-    username,
-    password: bcrypt.hashSync(password, SALT_ROUNDS),
-    createAt: Date.now(),
-  });
 
   res.status(201).send({
     message: 'User was created.',

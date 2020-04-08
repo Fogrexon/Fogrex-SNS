@@ -1,6 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
-const { User } = require('../database/control');
+const { userSignin } = require('../database/control');
 
 const router = express.Router();
 
@@ -10,23 +9,16 @@ router.post('/', async (req, res) => {
 
   if (!username || username === '' || !password || password === '') {
     res.status(401).send({
-      message: 'Username or password is incorrect.',
+      message: 'Username or password is invalid.',
     });
     return;
   }
 
-  const users = await User.findOne({ username });
+  const result = await userSignin(username, password);
 
-  if (!users) {
+  if (!result) {
     res.status(401).send({
       message: 'Username or password is incorrect.',
-    });
-    return;
-  }
-
-  if (!await bcrypt.compare(password, users.password)) {
-    res.status(401).send({
-      message: 'username or password is incorrect.',
     });
     return;
   }
@@ -34,7 +26,7 @@ router.post('/', async (req, res) => {
   req.session.user = {
     name: username,
   };
-
+  
   res.status(200).send({
     message: 'Signed in successfully.',
   });
