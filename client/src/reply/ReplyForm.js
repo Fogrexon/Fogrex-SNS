@@ -62,10 +62,10 @@ class RepFormProto extends React.Component {
       .post('/api/post', { text: this.state.text, reply: this.props.postid })
       .then((res) => {
         this.setState({ okMessage: res.data.message, errorMessage: null });
-        setInterval(() => this.setState({redirect: true}), 2000);
+        setInterval(() => this.setState({redirect: true}), 1000);
       })
       .catch((error) => {
-        if(!error.response) this.setState({ errorMessage: error.response.data.message, okMessage: null });
+        if(!!error.response) this.setState({ errorMessage: error.response.data.message, okMessage: null });
       });
   }
 
@@ -76,7 +76,7 @@ class RepFormProto extends React.Component {
         this.setState({ post: res.data });
       })
       .catch((error) => {
-        if(!error.response) this.setState({ errorMessage: error.response.data.message, okMessage: null });
+        if(!!error.response) this.setState({ errorMessage: error.response.data.message, okMessage: null });
       });
   }
 

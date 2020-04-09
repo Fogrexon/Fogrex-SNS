@@ -72,7 +72,7 @@ export default (props) => {
       .post('/api/signin', {username: values.username, password: values.password})
       .then((res) => {
         setValues({ ...values, errorMessage: null, okMessage: res.data.message });
-        setTimeout(() => setValues({...values, redirect: true}), 2000);
+        setTimeout(() => setValues({...values, redirect: true}), 1000);
       })
       .catch((error) => {
         if(!!error.response) setValues({...values, errorMessage: error.response.data.message, okMessage: null });

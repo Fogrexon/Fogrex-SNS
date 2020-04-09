@@ -23,7 +23,7 @@ export default (props) => {
           <Avatar className={classes.posStatic} alt={post.username}>{post.username.charAt(0)}</Avatar>
         }
         title={post.username}
-        subheader={post.date.toString()}
+        subheader={new Date(post.createAt).toString()}
       />
       <CardContent>
         <Typography variant='body2' component='p'>

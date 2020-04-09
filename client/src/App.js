@@ -11,6 +11,7 @@ import SignIn from './signin/Main';
 import SignUp from './signup/Main';
 import Post from './post/Main';
 import Reply from './reply/Main';
+import Detail from './detail/Main';
 
 export default class App extends React.Component {
   render() {
@@ -22,6 +23,7 @@ export default class App extends React.Component {
           <Route exact path='/' component={ Timeline } />
           <Route exact path='/post' component={ Post } />
           <Route exact path='/reply/:postid' component={ Reply } />
+          <Route exact path='/detail/:postid' component={ Detail } />
         </Switch>
       </Router>
     );

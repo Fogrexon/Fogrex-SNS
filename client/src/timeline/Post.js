@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -16,7 +16,11 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     margin: '5px auto',
-  }
+  },
+  reply: {
+    width: '80%',
+    margin: '5px auto 5px 0px',
+  },
 });
 
 class Like extends React.Component {
@@ -29,7 +33,8 @@ class Like extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(){
+  handleClick(e){
+    e.stopPropagation();
     axios
       .post(`/api/${ this.state.like ? 'unlike' : 'like' }/${this.props.postId}`)
       .then((res) => {
@@ -60,17 +65,21 @@ class Like extends React.Component {
 const Post = (props) => {
   const post = props.post;
   const classes = useStyles();
-  const handleConsole = ()=>{
-    console.log('console');
+
+  const handleClick = (path) => (e) => {
+    e.stopPropagation();
+    props.history.push(path);
+    if(props.match.url.split('/')[1] === path.split('/')[1]) props.history.go(0);
   }
+
   return (
-    <Card key={post.id} className={classes.root} onClick={handleConsole} >
+    <Card key={post.id} className={props.isReply ? classes.reply : classes.root} onClick={handleClick(`/detail/${post.id}`)} >
       <CardHeader
         avatar={
           <Avatar className={classes.posStatic} alt={post.username}>{post.username.charAt(0)}</Avatar>
         }
         title={post.username}
-        subheader={new Date(post.date).toString()}
+        subheader={new Date(post.createAt).toString()}
       />
       <CardContent>
         <Typography variant='body2' component='p'>
@@ -78,11 +87,12 @@ const Post = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton component={Link} to={`/reply/${post.id}`}><ChatBubbleIcon /></IconButton>
-        <Like like={post.likes.indexOf(props.me) >= 0} num={post.likes.length} postId={post.id} />
+        <IconButton onClick={handleClick(`/reply/${post.id}`)}><ChatBubbleIcon /></IconButton>
+        { !!post.replied ? post.replied.length : 0 }
+        <Like like={post.isLiked} num={post.likeNum} postId={post.id} />
       </CardActions>
     </Card>
   );
 }
 
-export default Post;
+export default withRouter(Post);

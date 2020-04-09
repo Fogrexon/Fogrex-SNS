@@ -76,11 +76,12 @@ const simplePostGetter = async (post, username) => {
   if(!post) return null;
   const likeNumPromise = Like.find({ postid: post.id });
   const isLikedPromise = Like.findOne({ postid: post.id, username });
-  const repliesPromise = Post.find({ reply: post.id });
+  const repliesPromise = Post.find({ reply: post.id }).sort({createAt: -1});
   const likeNum = (await likeNumPromise).length;
   const isLiked = !!(await isLikedPromise);
   const replies = await repliesPromise;
   const ids = [];
+
   replies.map((reply) => {
     ids.push(reply.id);
   });
@@ -117,10 +118,10 @@ exports.getLatestLike = async ( username, limit ) => {
   return await Promise.all(postsPromise);
 }
 
-exports.getPostDetail = async (id, username) => {
+exports.getPostDetail = async (id, username, limit) => {
   const post = await Post.findOne({id});
   if(!post) return null;
-  const repliedRaw = await Post.find({reply: id}).sort({createAt: -1});
+  const repliedRaw = await Post.find({reply: id}).sort({createAt: -1}).limit( limit );
   const likedRaw = await Like.find({postid: id});
   const likeYou = await Like.findOne({postid: id, username});
 
@@ -129,14 +130,14 @@ exports.getPostDetail = async (id, username) => {
     repliedPromise.push(simplePostGetter(reply, username));
   });
 
-  const replied = Promise.all(repliedRaw);
+  const replied = await Promise.all(repliedPromise);
 
   return {
     id: post.id,
     username: post.username, 
     text: post.text,
     createAt: post.createAt,
-    likes: likedRaw.length, 
+    likeNum: likedRaw.length, 
     isLiked: !!likeYou,
     reply: await simplePostGetter(await Post.findOne({id: post.reply}), username),
     replied: replied,

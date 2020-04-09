@@ -52,7 +52,7 @@ export default (props) => {
       .post('/api/post', {text: values.text})
       .then((res) => {
         setValues({...values, okMessage: res.data.message, errorMessage: null });
-        setInterval(() => setValues({...values, redirect: true}), 2000);
+        setInterval(() => setValues({...values, redirect: true}), 1000);
       })
       .catch((error) => {
         if(error.response.status === 401) setValues({...values, errorMessage: error.response.data.message, okMessage: null });
