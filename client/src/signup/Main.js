@@ -3,6 +3,7 @@ import { ViewFrame } from '../components/ViewComponents';
 import SignUpForm from './Form';
 
 export default (props) => {
+  props.auth();
   return (
     <React.Fragment>
       <ViewFrame title='SignUp'>

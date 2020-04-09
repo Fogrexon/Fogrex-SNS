@@ -4,6 +4,7 @@ import MyInfo from './MyInfo';
 
 
 export default (props) => {
+  props.auth();
   return (
     <React.Fragment>
       <ViewFrame title='Me'>

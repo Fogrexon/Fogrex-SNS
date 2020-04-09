@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Container from '@material-ui/core/Container';
 
-import Authentication, { Auth } from './Authentication';
-import Navigationbar from './navigationbar/Main';
+import Authentication from './Authentication';
 
 const useStyles = makeStyles({
   header: {
@@ -61,13 +60,10 @@ export const ViewFrame = (props) => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Auth>
         <Header title={props.title} className={classes.indexChanger} />
-        <Navigationbar className={classes.indexChanger}/>
         <Contents>
           { props.children }
         </Contents>
-      </Auth>
     </React.Fragment>
   );
 }

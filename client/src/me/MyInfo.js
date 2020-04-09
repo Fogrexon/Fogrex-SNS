@@ -12,7 +12,6 @@ const styles = {
     width: '100px',
     height: '100px',
     fontSize: '50px',
-    alignSelf: 'center',
   },
   avatarWrap: {
     width: '100%',

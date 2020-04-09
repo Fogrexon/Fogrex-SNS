@@ -4,6 +4,7 @@ import ReplyForm from './ReplyForm';
 
 
 export default (props) => {
+  props.auth();
   return (
     <React.Fragment>
       <ViewFrame title='Reply'>

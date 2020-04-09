@@ -4,6 +4,7 @@ import Favs from './Favs';
 import { ViewFrame, Redirector } from '../components/ViewComponents';
 
 const Timeline = (props) => {
+  props.auth();
   return (
     <React.Fragment>
       <ViewFrame title='Favorites'>

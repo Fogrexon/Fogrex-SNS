@@ -4,6 +4,7 @@ import SignInForm from './Form';
 
 
 export default (props) => {
+  props.auth();
   return (
     <React.Fragment>
       <ViewFrame title='SignIn'>
