@@ -1,26 +1,30 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import SignedInNavs from './SignedIn';
 import SignInNavs from './SignIn';
 
 import Authentication from '../Authentication';
 
+const useStyles = makeStyles({
+  indexChanger: {
+    zIndex: 10000,
+  },
+});
+
+
 
 const Elevation = (props) => {
   const { children } = props;
-  // const trigger = useScrollTrigger({
-  //   disableHysteresis: true,
-  //   threshold: 0,
-  // });
 
   return React.cloneElement(children, {
-    // elevation: trigger ? 4 : 0,
     elevation: 4,
   });
 }
 
 
 const NavProto = (props) => {
+  const classes = useStyles();
   let location = props.location.pathname.split('/')[1];
   location = location === '' ? 'home' : location;
 
@@ -29,8 +33,8 @@ const NavProto = (props) => {
       <Authentication.Consumer>
         {
           value => {
-            if(!value || !value.username) return <SignInNavs basePath={ location } {...props}/>
-            return <SignedInNavs basePath={ location } {...props} />
+            if(!value || !value.username) return <SignInNavs basePath={ location } className={classes.indexChanger} {...props}/>
+            return <SignedInNavs basePath={ location } className={classes.indexChanger} {...props} />
           }
         }
       </Authentication.Consumer>
