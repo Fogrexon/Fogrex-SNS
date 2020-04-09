@@ -125,9 +125,6 @@ sketch
 
 *.sql
 
-Dockerfile
 .devcontainer
 .vscode
-db/
-configdb/
 mongo/init/init.js
