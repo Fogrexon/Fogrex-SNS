@@ -1,12 +1,35 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
 import Authentication from '../components/Authentication';
 
-export default class MyInfo extends React.Component {
+const styles = {
+  avatar: {
+    width: '100px',
+    height: '100px',
+    fontSize: '50px',
+    alignSelf: 'center',
+  },
+  avatarWrap: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  centering: {
+    textAlign: 'center',
+  },
+  righting: {
+    display: 'block',
+    margin: '5px auto',
+  }
+}
+
+class MyInfo extends React.Component {
 
   static contextType = Authentication;
 
@@ -67,14 +90,17 @@ export default class MyInfo extends React.Component {
         </React.Fragment>
       );
     }
+    const classes = this.props.classes;
     return (
       <React.Fragment>
         {!this.state.redirect|| <Redirect to='/signin' />}
-        <Avatar>{this.state.me.username.charAt(0)}</Avatar>
-        <div key='username'>{this.state.me.username}</div>
-        <div key='createAt'>{(new Date(this.state.me.createAt)).toString()}</div>
-        <Button variant='contained' color='primary' onClick={this.signOut}>SIGNOUT</Button>
+        <div key='usericon' className={classes.avatarWrap}><Avatar className={classes.avatar}>{this.state.me.username.charAt(0)}</Avatar></div>
+        <h1 key='username' className={classes.centering}>{this.state.me.username}</h1>
+        <div key='createAt' className={classes.centering}>{(new Date(this.state.me.createAt)).toString()}</div>
+        <Button variant='contained' color='primary' onClick={this.signOut}  className={classes.righting}>SIGNOUT</Button>
       </React.Fragment>
     );
   }
 }
+
+export default withStyles(styles)(MyInfo);

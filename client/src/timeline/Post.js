@@ -86,11 +86,15 @@ const Post = (props) => {
           { post.text }
         </Typography>
       </CardContent>
-      <CardActions>
-        <IconButton onClick={handleClick(`/reply/${post.id}`)}><ChatBubbleIcon /></IconButton>
-        { !!post.replied ? post.replied.length : 0 }
-        <Like like={post.isLiked} num={post.likeNum} postId={post.id} />
-      </CardActions>
+      {
+        props.disableActions ? null : (
+        <CardActions>
+          <IconButton onClick={handleClick(`/reply/${post.id}`)}><ChatBubbleIcon /></IconButton>
+          { !!post.replied ? post.replied.length : 0 }
+          <Like like={post.isLiked} num={post.likeNum} postId={post.id} />
+        </CardActions>
+        )
+      }
     </Card>
   );
 }

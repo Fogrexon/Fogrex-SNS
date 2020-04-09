@@ -50,7 +50,7 @@ export default class DetailViewer extends React.Component {
     }
     return (
       <React.Fragment>
-        {!!this.state.post.reply ? <Post key='replypost' post={this.state.post.reply} me={this.context.username} /> : null}
+        {!!this.state.post.reply ? <Post key='replypost' post={this.state.post.reply} me={this.context.username} disableActions /> : null}
         <Post key='mainpost' post={this.state.post} me={this.context.username} />
         { 
           this.state.post.replied.map(post => {
