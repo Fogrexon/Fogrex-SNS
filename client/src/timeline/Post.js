@@ -18,8 +18,8 @@ const useStyles = makeStyles({
     margin: '5px auto',
   },
   reply: {
-    width: '80%',
-    margin: '5px auto 5px 0px',
+    width: '90%',
+    margin: '5px 0px 5px auto',
   },
 });
 

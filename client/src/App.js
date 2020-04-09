@@ -12,6 +12,7 @@ import SignUp from './signup/Main';
 import Post from './post/Main';
 import Reply from './reply/Main';
 import Detail from './detail/Main';
+import Me from './me/Main';
 
 export default class App extends React.Component {
   render() {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
           <Route exact path='/post' component={ Post } />
           <Route exact path='/reply/:postid' component={ Reply } />
           <Route exact path='/detail/:postid' component={ Detail } />
+          <Route exact path='/me' component={ Me } />
         </Switch>
       </Router>
     );

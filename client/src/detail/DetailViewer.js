@@ -48,7 +48,6 @@ export default class DetailViewer extends React.Component {
         </React.Fragment>
       );
     }
-    console.log(this.state.post);
     return (
       <React.Fragment>
         {!!this.state.post.reply ? <Post key='replypost' post={this.state.post.reply} me={this.context.username} /> : null}
