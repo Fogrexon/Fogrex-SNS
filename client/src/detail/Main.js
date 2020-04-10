@@ -4,7 +4,7 @@ import DetailViewer from './DetailViewer';
 
 
 export default (props) => {
-  props.auth();
+  props.auth(props.match.url)();
   return (
     <React.Fragment>
       <ViewFrame title='Detail'>
