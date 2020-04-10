@@ -13,8 +13,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD:
       MONGO_INITDB_DATABASE:
   sns-server:
-    links:
-      - mongo
     build:
       context: .
       dockerfile: ./docker/sns-server/Dockerfile
@@ -29,9 +27,6 @@ services:
       DB_DATABASE:
       SERVER_PORT:
   sns-client:
-    links:
-      - mongo
-      - sns-server
     build:
       context: .
       dockerfile: ./docker/sns-client/Dockerfile
