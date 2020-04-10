@@ -1,5 +1,5 @@
 {
-  "name": "workspace",
+  "name": "fogrex_sns",
   "version": "1.0.0",
   "description": "Fogrex s SNS",
   "main": "index.js",

@@ -69,7 +69,6 @@ const Post = (props) => {
   const handleClick = (path) => (e) => {
     e.stopPropagation();
     props.history.push(path);
-    if(props.match.url.split('/')[1] === path.split('/')[1]) props.history.go(0);
   }
 
   return (

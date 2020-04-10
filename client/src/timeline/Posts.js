@@ -40,9 +40,6 @@ export default class Posts extends React.Component {
         this.setState({
           posts: res.data,
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 

@@ -21,7 +21,7 @@ import Favs from './favorites/Main';
 
 export default () => {
   const [auth, setAuth] = React.useState(null);
-  let prevPath = null;
+  const [prevPath, setPath] = React.useState(null);
   const checkAuth = (path) => () => {
     if(prevPath === path) return;
     axios.get('/api/whoami').then(
@@ -29,24 +29,26 @@ export default () => {
         if(auth !== res.data.username) setAuth({ username: res.data.username });
       }
     ).catch(
-      () => setAuth({ username: null })
+      () => {
+        setAuth({ username: null });
+      }
     );
-    prevPath = path;
+    setPath(path);
   }
 
   return (
     <Router>
-      <Authentication.Provider value={auth}>
+      <Authentication.Provider value={ auth }>
         <Navigationbar />
         <Switch>
-          <Route exact path='/signup' render={(props)=> <SignUp auth={checkAuth('signup')} {...props} />} />
-          <Route exact path='/signin' render={(props)=> <SignIn auth={checkAuth('signin')} {...props} />} />
-          <Route exact path='/' render={(props)=> <Timeline auth={checkAuth('home')} {...props} />} />
-          <Route exact path='/post' render={(props)=> <Post auth={checkAuth('post')} {...props} />} />
-          <Route exact path='/reply/:postid' render={(props)=> <Reply auth={checkAuth('reply')} {...props} />} />
-          <Route exact path='/detail/:postid' render={(props)=> <Detail auth={checkAuth('detail')} {...props} />} />
-          <Route exact path='/me' render={(props)=> <Me auth={checkAuth('me')} {...props} />} />
-          <Route exact path='/favs' render={(props)=> <Favs auth={checkAuth('favs')} {...props} />} />
+          <Route exact path='/signup' render={(props)=> <SignUp auth={checkAuth} {...props} />} />
+          <Route exact path='/signin' render={(props)=> <SignIn auth={checkAuth} {...props} />} />
+          <Route exact path='/' render={(props)=> <Timeline auth={checkAuth} {...props} />} />
+          <Route exact path='/post' render={(props)=> <Post auth={checkAuth} {...props} />} />
+          <Route exact path='/reply/:postid' render={(props)=> <Reply auth={checkAuth} {...props} />} />
+          <Route exact path='/detail/:postid' render={(props)=> <Detail auth={checkAuth} {...props} />} />
+          <Route exact path='/me' render={(props)=> <Me auth={checkAuth} {...props} />} />
+          <Route exact path='/favs' render={(props)=> <Favs auth={checkAuth} {...props} />} />
         </Switch>
       </Authentication.Provider>
   </Router>
