@@ -26,16 +26,25 @@ services:
       DB_PORT:
       DB_DATABASE:
       SERVER_PORT:
-  sns-client:
+  nginx:
     build:
       context: .
-      dockerfile: ./docker/sns-client/Dockerfile
-    container_name: sns-client
+      dockerfile: ./docker/nginx/Dockerfile
+    container_name: nginx
+    # volumes:
+    #   - ./nginx/:/etc/nginx/
     ports:
-      - ${CLIENT_PORT}:${CLIENT_PORT}
+      - 8080:80
     environment:
       SERVER_PORT:
-      CLIENT_PORT:
+      SERVER_NAME:
+    command: >
+      /bin/sh -c "
+      envsubst '
+      $$SERVER_PORT $$SERVER_NAME
+      ' < /etc/nginx/nginx.conf.template 
+      > /etc/nginx/nginx.conf 
+      && nginx -g 'daemon off;'"
 volumes:
   mongodb-data:
     driver: local
